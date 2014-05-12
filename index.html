@@ -52,58 +52,126 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#certamine-sortes-polenta-nobis-agitantem-neptune-agmina">Certamine sortes polenta nobis agitantem Neptune agmina</a></li>
+        <li class="main active"><a href="#telekom-security-automation">Telekom Security Automation</a></li>
         
-            <li><a href="#nec-ablata-sternebat-silicem">Nec ablata sternebat silicem</a></li>
+            <li><a href="#scope">Scope</a></li>
         
-            <li><a href="#artus-conspectior-videt-correptaque-somno-perfundere-aethere">Artus conspectior videt correptaque somno perfundere aethere</a></li>
+            <li><a href="#supported-operating-systems">Supported Operating Systems</a></li>
+        
+            <li><a href="#blog">Blog</a></li>
+        
+            <li><a href="#team">Team</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="certamine-sortes-polenta-nobis-agitantem-neptune-agmina">Certamine sortes polenta nobis agitantem Neptune agmina</h1>
-<h2 id="nec-ablata-sternebat-silicem">Nec ablata sternebat silicem</h2>
-<p>Lorem markdownum <em>differt</em> irata iura gaudere favilla aequales abstuleris et
-illa dubitate dignos. Modo caecaque si comitesque omnesque, insula reparatque
-quam; sine ramis terram rursusque placui, et? Ab quaeque ultima ob e omnia
-quamquam, audiat, bisque caelo <strong>anxius</strong> aquis in utque Mopsum, pacali; secura.
-<strong>Ruris</strong> quinque Aegides ait errat quaeque: raptu vota portabat fera.</p>
-<blockquote>
-<p>Vox nec Hactenus <strong>Troia circumfuso</strong> factum aptarique vetustas die spatio.
-Misit incessit armos, <em>me</em> pudor membra annos adulantes et opem prodita.
-Petentes non huius Crocale obversus temptabat illuc perhorruit somnum, quoque?</p>
-</blockquote>
-<p>Primas dum! Tunc mihi quoque. Suco non; saevit fulva faciem. Atro cum omnes
-milite, conquesti resumere: e stupet dixerat nitentem, demittere mater Venus
-inpleverunt cecidisse, hic.</p>
-<h2 id="artus-conspectior-videt-correptaque-somno-perfundere-aethere">Artus conspectior videt correptaque somno perfundere aethere</h2>
-<p>Vocari domos locat matrisque avem, siqua meritasque adiit <a href="http://imgur.com/">mutatur
-tum</a>. Pomis dici alligat quam erravit, sonitum.
-<a href="http://www.lipsum.com/">Dies</a> amnem quies undas. Cum ego alis pluma
-<a href="http://imgur.com/">quibus</a>, sanguine mutata. Dedit e refers nunc, candidus
-ultro recludere novus lucis unda superatus extremum, se horrent caesa redeunt
-non.</p>
+<h1 id="telekom-security-automation">Telekom Security Automation</h1>
+<h2 id="scope">Scope</h2>
+<p>Server Hardening is not a new topic. Various people around the world spent ages on this topic. Why do we need another?</p>
+<p>At Deutsche Telekom we need to manage thousands of servers for our customers and ourselves. All servers need to be configured properly and maintained. It becomes quite a task to keep all servers with the best known configuration.</p>
+<p>Since we use Chef and Puppet to automate the deployment, why shouldn't we automate the server and application hardening? We identified 3 phases to secure a server.</p>
 <ol>
-<li>Libera mundumque operum me mollit mirantem nec</li>
-<li>Tenent sub viva Orpheus lapidumque constitit oculis</li>
-<li>Illa prolem</li>
-<li>Loquendi subit sine velle</li>
-<li>Eras cruoris proque livent</li>
-<li>Sit per</li>
+<li>Installation of operating system</li>
+<li>Installation and hardening of operating system and applications</li>
+<li>Continuous management and verification of security configuration</li>
 </ol>
-<p>Pavido vallibus volantem sparsaque videri. Formosus sua vel dum sequiturque
-<strong>telum est</strong>, est signa forsitan subitisque erat. Opes dicere acclinia terga
-cui germane, quanto sanguine cornua ingreditur castris <em>propinquas agilis
-patriaque</em> nomen, sperat! Ante praecipitem fortius deseruere novum nec
-<strong>Vulcanum</strong> times, pro exilibus conterit.</p>
-<p>Prospectet nam si, et lapsae questaque ille multaque petita ausis rogantis.
-Mortalia ab manet simul dentes; oculosque officioque deum ab arma saeva
-cedentes. <em>Surdaeque</em> effugit litus, ferebat magis conscendunt malo accipe
-<em>pollice tamen</em>; temptat ore haec venturas dum. Vobisque leniat rescierit
-thyrsos Oedipodioniae claro et specie mugiat. Pollice vincula magnis deus Troia;
-est vires iracunda si ipsum.</p>
+<h3 id="installation-of-os">Installation of OS</h3>
+<p>We recommend to install operating systems from trusted sources. This could be an operating system vendor or a trusted third party. If possible, we use vendor images. Since we use virtualize environments like OpenStack in our own infrastructure, the secure generation of operating systems is part of a secure infrastrucutre too. Therefore we automated the building of RedHat, Centos and Oracle Linux for those.</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/packer-rhel">packer-rhel</a></li>
+</ul>
+<h3 id="hardening-of-os-and-applications">Hardening of OS and Applications</h3>
+<p>We provide multiple recipes in this area. We used best-known guides like <a href="http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si">Deutsche Telekom (German)</a>, <a href="https://bettercrypto.org/">BetterCrypto</a> or <a href="http://www.nsa.gov/ia/_files/os/redhat/NSA_RHEL_5_GUIDE_v4.2.pdf">NSA</a></p>
+<p>Chef Cookbooks</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/chef-os-hardening">chef-os-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/chef-ssh-hardening">chef-ssh-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/chef-mysql-hardening">chef-mysql-hardening</a></li>
+</ul>
+<p>Puppet Modules</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/puppet-os-hardening">puppet-os-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/puppet-ssh-hardening">puppet-ssh-hardening</a></li>
+</ul>
+<h3 id="continuous-management">Continuous management</h3>
+<p>This area includes tasks like patch management, attack monitor systems and fixing of known vulnerabilities and exposures. Various solutions are available, but we will not cover issues within this area.</p>
+<h2 id="supported-operating-systems">Supported Operating Systems</h2>
+<p>✔ supported, ∅ not supported yet, ✘ will not be supported</p>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Supported</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RedHat 6.5</td>
+<td>✔</td>
+<td>full coverage</td>
+</tr>
+<tr>
+<td>RedHat 7</td>
+<td>✔</td>
+<td>not tested</td>
+</tr>
+<tr>
+<td>CentOS 6.5</td>
+<td>✔</td>
+<td>full coverage</td>
+</tr>
+<tr>
+<td>Oracle Linux 6.5</td>
+<td>✔</td>
+<td>full coverage</td>
+</tr>
+<tr>
+<td>Ubuntu 12.04</td>
+<td>✔</td>
+<td>full coverage</td>
+</tr>
+<tr>
+<td>Ubuntu 14.04</td>
+<td>✔</td>
+<td>full coverage</td>
+</tr>
+<tr>
+<td>Debian 6</td>
+<td>∅</td>
+<td>not fully tested, but should work</td>
+</tr>
+<tr>
+<td>Debian 7</td>
+<td>∅</td>
+<td>not fully tested, but should work</td>
+</tr>
+<tr>
+<td>Suse Enterprise 11 SP3</td>
+<td>∅</td>
+<td>not tested</td>
+</tr>
+</tbody>
+</table>
+<h2 id="blog">Blog</h2>
+<p>We collect interesting findings in our blogs:</p>
+<ul>
+<li><a href="http://ehaselwanter.com/en/blog/2014/05/08/using-test-kitchen-with-puppet/">Using Test Kitchen With Puppet</a></li>
+</ul>
+<h2 id="team">Team</h2>
+<p>This project was initiated by Dominik Richter, Patrick Meier and Christoph Hartmann, a group of specialists, security researchers and cloud engineers. </p>
+<ul>
+<li>Dominik Richter</li>
+<li>Patrick Meier</li>
+<li>Christoph Hartmann</li>
+</ul>
+<p>These people have generously contributed (in alphabetical order)</p>
+<ul>
+<li>Edmund Haselwanter </li>
+<li>Bernhard Weisshuhn</li>
+</ul>
 </div>
         </div>
 
