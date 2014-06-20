@@ -117,7 +117,9 @@
 </ul>
 <p>Read on for detailed steps</p>
 <h2 id="license">License</h2>
-<p>This project is Apache 2 licensed. Every contribution must be under the Apache 2 License too. For new files we have added a section with <a href="/docs/license-headers">License Headers</a>. In addition to the license we only accept contributions signed as your work. The sign-off is a simple line at the end of the explanation for the patch, which certifies that you wrote it or otherwise have the right to pass it on as an open-source patch. The rules are pretty simple: if you can certify the below (from <a href="developercertificate.org">developercertificate.org</a>):</p>
+<p>This project is Apache 2 licensed. Every contribution must be under the Apache 2 License too. For new files we have added a section with <a href="/docs/license-headers">License Headers</a>. </p>
+<h3 id="sign-your-work">Sign your work</h3>
+<p>In addition to the license we only accept contributions signed as your work. The sign-off is a simple line at the end of the explanation for the patch, which certifies that you wrote it or otherwise have the right to pass it on as an open-source patch. The rules are pretty simple: if you can certify the below (from <a href="developercertificate.org">developercertificate.org</a>):</p>
 <pre class="prettyprint well"><code>Developer Certificate of Origin
 Version 1.1
 
@@ -156,6 +158,18 @@ By making a contribution to this project, I certify that:
     this project or the open source license(s) involved.
 </code></pre>
 
+<p>then you just add a line to every git commit message:</p>
+<pre class="prettyprint well"><code>TelekomLabs-DCO-1.1-Signed-off-by: Joe Smith &lt;joe.smith@email.com&gt; (github: github_handle)
+</code></pre>
+<p>using your real name (sorry, no pseudonyms or anonymous contributions.)</p>
+<p>One way to automate this, is customise your get <code>commit.template</code> by adding
+a <code>prepare-commit-msg</code> hook to your hardening project checkout:</p>
+<pre class="prettyprint well"><code>curl -o .git/hooks/prepare-commit-msg https://raw.githubusercontent.com/TelekomLabs/docs/blob/master/docs/contrib/prepare-commit-msg.hook &amp;&amp; chmod +x .git/hooks/prepare-commit-msg
+</code></pre>
+
+<ul>
+<li>Note: the above script expects to find your GitHub user name in <code>git config --get github.user</code></li>
+</ul>
 <h2 id="contributing-to-the-hardening-framework-projects">Contributing to the Hardening Framework Projects</h2>
 <p>Below, replace "REPO" with the project that should be changed. Replace "USER" with your GitHub username.</p>
 <ol>
