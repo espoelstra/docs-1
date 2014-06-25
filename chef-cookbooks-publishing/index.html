@@ -9,7 +9,7 @@
         
         <link rel="shortcut icon" href="../img/favicon.ico">
 
-        <title>License headers - Automatic server hardening</title>
+        <title>Chef cookbooks publishing - Automatic server hardening</title>
 
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -54,8 +54,8 @@
                 <ul class="nav navbar-nav">
                 
                 
-                    <li >
-                        <a href="../chef-cookbooks-publishing/">Chef cookbooks publishing</a>
+                    <li class="active">
+                        <a href="./">Chef cookbooks publishing</a>
                     </li>
                 
                 
@@ -66,8 +66,8 @@
                 
                 
                 
-                    <li class="active">
-                        <a href="./">License headers</a>
+                    <li >
+                        <a href="../license-headers/">License headers</a>
                     </li>
                 
                 
@@ -80,12 +80,12 @@
                 
                 
                 <li >
-                    <a rel="next" href="../how-to-contribute/">
+                    <a rel="next" href="..">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
-                <li class="disabled">
-                    <a rel="prev" >
+                <li >
+                    <a rel="prev" href="../how-to-contribute/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -101,92 +101,48 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#ruby">Ruby</a></li>
-        
-    
-        <li class="main "><a href="#javascript">JavaScript</a></li>
-        
-    
-        <li class="main "><a href="#python">Python</a></li>
-        
-    
-        <li class="main "><a href="#html">HTML</a></li>
+        <li class="main active"><a href="#publishing-cookbooks">Publishing Cookbooks</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h2 id="ruby">Ruby</h2>
-<pre class="prettyprint well"><code class="ruby"># encoding: utf-8
-#
-# Copyright 2014, Deutsche Telekom AG
-#
-# Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+<h1 id="publishing-cookbooks">Publishing Cookbooks</h1>
+<p>We will use <code>chef-ssh-hardening</code> as an example project.</p>
+<ol>
+<li>
+<p>Install chef</p>
+<pre class="prettyprint well"><code>gem install chef
 </code></pre>
+</li>
+<li>
+<p>Since development happens locally, define your ssh key in your chef config</p>
+<pre class="prettyprint well"><code>~/.chef/knife.rb
 
-<h2 id="javascript">JavaScript</h2>
-<pre class="prettyprint well"><code class="javascript">/* Copyright 2014 Deutsche Telekom AG
- *
- * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+client_key "#{ENV['HOME']}/.ssh/id_rsa"
+cookbook_license "apachev2"
+cookbook_copyright "&lt;YOURNAME&gt;"
+cookbook_email "&lt;EMAIL&gt;"
 </code></pre>
-
-<h2 id="python">Python</h2>
-<pre class="prettyprint well"><code class="python"># Copyright 2014 Deutsche Telekom AG
-#
-# Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+</li>
+<li>
+<p>Copy to temporary cookbooks location</p>
+<pre class="prettyprint well"><code>mkdir /tmp/cookbooks
+cp -r . /tmp/cookbooks/ssh-hardening
 </code></pre>
-
-<h2 id="html">HTML</h2>
-<pre class="prettyprint well"><code class="html">&lt;!--
-Copyright 2014 Deutsche Telekom AG
-
-Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
---&gt;
+</li>
+<li>
+<p>Generate <code>metadata.json</code></p>
+<pre class="prettyprint well"><code>knife cookbook metadata ssh-hardening -o /tmp/cookbooks
 </code></pre>
-
+</li>
+<li>
+<p>Generate tarball</p>
+<pre class="prettyprint well"><code>knife cookbook site share ssh-hardening "ssh-hardening" -o /tmp/cookbooks
+</code></pre>
+</li>
+</ol>
 </div>
         </div>
 
