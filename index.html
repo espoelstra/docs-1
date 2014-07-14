@@ -11,11 +11,10 @@
 
         <title>Automatic server hardening</title>
 
-        <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="./css/bootstrap-3.0.3.min.css" rel="stylesheet">
         <link href="./css/font-awesome-4.0.3.css" rel="stylesheet">
         <link href="./css/prettify-1.0.css" rel="stylesheet">
         <link href="./css/base.css" rel="stylesheet">
-        
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -26,14 +25,13 @@
         
     </head>
 
-    <body class="homepage">
+    <body>
 
         <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
 
         <!-- Collapsed navigation -->
         <div class="navbar-header">
-            
             <!-- Expander button -->
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -41,7 +39,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            
 
             <!-- Main title -->
             <a class="navbar-brand" href=".">Automatic server hardening</a>
@@ -49,35 +46,58 @@
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
             
-                <!-- Main navigation -->
-                <ul class="nav navbar-nav">
-                
-                
-                    <li >
-                        <a href="chef-cookbooks-publishing/">Chef cookbooks publishing</a>
-                    </li>
-                
-                
-                
-                    <li >
-                        <a href="how-to-contribute/">How to contribute</a>
-                    </li>
-                
-                
-                
-                    <li >
-                        <a href="license-headers/">License headers</a>
-                    </li>
-                
-                
-                </ul>
             
+                <li class="active">
+                    <a href=".">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Coding <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="coding/contributing/">Contributing</a>
+                        </li>
+                    
+                        <li >
+                            <a href="coding/linting/">Linting</a>
+                        </li>
+                    
+                        <li >
+                            <a href="coding/headers/">File headers</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="principles/">Principles</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="chef/">Chef</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="puppet/">Puppet</a>
+                </li>
+            
+            
+            </ul>
 
-            
             <!-- Search, Navigation and Repo links -->
             <ul class="nav navbar-nav navbar-right">
-                
                 
                 <li class="disabled">
                     <a rel="next" >
@@ -85,14 +105,12 @@
                     </a>
                 </li>
                 <li >
-                    <a rel="prev" href="chef-cookbooks-publishing/">
+                    <a rel="prev" href="coding/contributing/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
                 
-                
             </ul>
-            
         </div>
     </div>
 </div>
@@ -104,8 +122,6 @@
         <li class="main active"><a href="#automatic-server-hardening">Automatic server hardening</a></li>
         
             <li><a href="#scope">Scope</a></li>
-        
-            <li><a href="#supported-operating-systems">Supported Operating Systems</a></li>
         
     
     </ul>
@@ -129,88 +145,10 @@
 </ul>
 <h3 id="hardening-of-os-and-applications">Hardening of OS and Applications</h3>
 <p>We provide multiple recipes in this area. We used best-known guides like <a href="http://www.telekom.com/static/-/155996/7/technische-sicherheitsanforderungen-si">Deutsche Telekom (German)</a>, <a href="https://bettercrypto.org/">BetterCrypto</a> or <a href="http://www.nsa.gov/ia/_files/os/redhat/NSA_RHEL_5_GUIDE_v4.2.pdf">NSA</a></p>
-<p>Chef Cookbooks</p>
-<ul>
-<li><a href="https://github.com/TelekomLabs/example-chef-hardening">example-chef-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/chef-os-hardening">chef-os-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/chef-ssh-hardening">chef-ssh-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/chef-mysql-hardening">chef-mysql-hardening</a></li>
-</ul>
-<p>Puppet Modules</p>
-<ul>
-<li><a href="https://github.com/TelekomLabs/example-puppet-hardening">example-puppet-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/puppet-os-hardening">puppet-os-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/puppet-ssh-hardening">puppet-ssh-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/puppet-mysql-hardening">puppet-mysql-hardening</a></li>
-</ul>
 <h3 id="continuous-management">Continuous management</h3>
 <p>This area includes tasks like patch management, attack monitor systems and fixing of known vulnerabilities and exposures. Various solutions are available, but we will not cover issues within this area.</p>
-<h2 id="supported-operating-systems">Supported Operating Systems</h2>
-<p>✔ supported, ∅ not supported yet, ✘ will not be supported</p>
-<table>
-<thead>
-<tr>
-<th>Operating System</th>
-<th>Supported</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>RedHat 6.5</td>
-<td>✔</td>
-<td>full coverage</td>
-</tr>
-<tr>
-<td>RedHat 7</td>
-<td>∅</td>
-<td>not tested</td>
-</tr>
-<tr>
-<td>CentOS 6.5</td>
-<td>✔</td>
-<td>full coverage</td>
-</tr>
-<tr>
-<td>Oracle Linux 6.5</td>
-<td>✔</td>
-<td>full coverage</td>
-</tr>
-<tr>
-<td>Ubuntu 12.04</td>
-<td>✔</td>
-<td>full coverage</td>
-</tr>
-<tr>
-<td>Ubuntu 14.04</td>
-<td>✔</td>
-<td>full coverage</td>
-</tr>
-<tr>
-<td>Debian 6</td>
-<td>∅</td>
-<td>not fully tested, but should work</td>
-</tr>
-<tr>
-<td>Debian 7</td>
-<td>∅</td>
-<td>not fully tested, but should work</td>
-</tr>
-<tr>
-<td>Suse Enterprise 11 SP3</td>
-<td>∅</td>
-<td>not tested</td>
-</tr>
-</tbody>
-</table>
 </div>
         </div>
-
-        <footer class="col-md-12">
-            <hr>
-            
-            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
 
         
 
@@ -218,6 +156,5 @@
         <script src="./js/bootstrap-3.0.3.min.js"></script>
         <script src="./js/prettify-1.0.min.js"></script>
         <script src="./js/base.js"></script>
-        
     </body>
 </html>

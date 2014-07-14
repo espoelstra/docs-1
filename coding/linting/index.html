@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+
+        <title>Linting - Automatic server hardening</title>
+
+        <link href="../../css/bootstrap-3.0.3.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link href="../../css/prettify-1.0.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">Automatic server hardening</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="../..">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Coding <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        <li >
+                            <a href="../contributing/">Contributing</a>
+                        </li>
+                    
+                        <li class="active">
+                            <a href="./">Linting</a>
+                        </li>
+                    
+                        <li >
+                            <a href="../headers/">File headers</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../principles/">Principles</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../chef/">Chef</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../../puppet/">Puppet</a>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li >
+                    <a rel="next" href="../contributing/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../headers/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#linting">Linting</a></li>
+        
+            <li><a href="#ruby-rubocop">Ruby - Rubocop</a></li>
+        
+            <li><a href="#chef-foodcritic">Chef - Foodcritic</a></li>
+        
+            <li><a href="#puppet-puppet-lint">Puppet - Puppet-Lint</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="linting">Linting</h1>
+<p>We run several linting tools in our continuous integration pipeline. If you create a pull request the CI will kick in and run <a href="https://github.com/bbatsov/rubocop">Rubocop</a> for every project as well as <a href="http://www.foodcritic.io">Foodcritic</a> for chef repos or <a href="http://puppet-lint.com">puppet-lint</a> for puppet repos. The tasks are provided as Rake Tasks ready to run an give feedback.</p>
+<p>Here the example output of the <a href="https://github.com/TelekomLabs/chef-os-hardening">chef-os-hardening project</a> (kitchen-tasks stripped):</p>
+<pre class="prettyprint well"><code class="shell">± bundle exec rake -T
+rake acceptance                                 # Alias for kitchen:all
+rake foodcritic                                 # Run foodcritic lint checks
+rake integration                                # Run all tests except Kitchen (default task)
+rake kitchen:all                                # Run all test instances
+[ ... kitchen-tasks stripped ... ]
+rake lint                                       # Run linters
+rake rubocop                                    # Run Rubocop lint checks
+rake run_all_linters                            # Run all linters: rubocop and foodcritic
+rake spec                                       # Run chefspec tests
+rake test                                       # Run all tests
+</code></pre>
+
+<p>The CI is configured to run the common task <code>rake run_all_linters</code> in all the projects. Example of a successful run:</p>
+<pre class="prettyprint well"><code class="shell">± bundle exec rake run_all_linters
+Running RuboCop...
+Inspecting 20 files
+....................
+
+20 files inspected, no offences detected
+Running Foodcritic tests...
+done.
+
+± echo $?
+0
+</code></pre>
+
+<p>The CI evaluates the return code of the task, which is <code>0</code> if no offences are found.</p>
+<p>The task will fail fast. Meaning we run <a href="https://github.com/bbatsov/rubocop">Rubocop</a> first and the specific linter (if any) next. A failed run of rubocop looks like the following output:</p>
+<pre class="prettyprint well"><code>± bundle exec rake run_all_linters
+Running RuboCop...
+Inspecting 20 files
+....C...............
+
+Offences:
+
+recipes/default.rb:22:1: C: Extra blank line detected.
+
+20 files inspected, 1 offence detected
+RuboCop failed!
+
+± echo $?
+1
+</code></pre>
+
+<p>The exit code is <code>1</code> indicating that one of the linters involved found an offence. Following an example in a chef cookbook were rubocop is successful but foodcritic found an offence:</p>
+<pre class="prettyprint well"><code class="shell">± bundle exec rake run_all_linters
+Running RuboCop...
+Inspecting 20 files
+....................
+
+20 files inspected, no offences detected
+Running Foodcritic tests...
+done.
+FC019: Access node attributes in a consistent manner: /.../recipes/default.rb:29
+rake aborted!
+FC019: Access node attributes in a consistent manner: /.../recipes/default.rb:29
+/.../.rvm/gems/ruby-2.1.1/gems/foodcritic-3.0.3/lib/foodcritic/rake_task.rb:33:in `block in define'
+/.../.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `eval'
+/.../.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `&lt;main&gt;'
+Tasks: TOP =&gt; run_all_linters =&gt; foodcritic
+(See full trace by running task with --trace)
+
+± echo $?
+1
+</code></pre>
+
+<h3 id="ruby-rubocop">Ruby - Rubocop</h3>
+<p><a href="https://github.com/bbatsov/rubocop">Rubocop</a> catches a lot of basic syntax infractions and provides ruby best practice advise like using double quotes for strings that do not interpolate Ruby variables, or using simple if/else statements when a one-line ternary operator would be sufficient. This helps enforcing a common style guide and avoiding time consuming best practice discussions in pull requests. Have a look at <a href="https://github.com/bbatsov/ruby-style-guide">A community-driven Ruby coding style guide</a> for further details.</p>
+<p>Every project has a rake task to run rubocop as well as a task were all linters for the project are run, including rubocop:</p>
+<pre class="prettyprint well"><code>± bundle exec rake -T|grep rubocop
+rake rubocop                                    # Run Rubocop lint checks
+rake run_all_linters                            # Run all linters: rubocop and foodcritic
+</code></pre>
+
+<p>Rubocop honors the <code>.rubocop.yml</code> file of the project.</p>
+<p>Example successful run of rubocop:</p>
+<pre class="prettyprint well"><code class="shell">± bundle exec rake rubocop
+Running RuboCop...
+Inspecting 6 files
+......
+
+6 files inspected, no offences detected
+
+± echo $?
+0
+</code></pre>
+
+<h3 id="chef-foodcritic">Chef - Foodcritic</h3>
+<p><a href="http://www.foodcritic.io">Foodcritic</a> is a special linter for chef cookbooks. The rake task is configured to fail on <code>any</code> violation. We, as a project, decided to use the single quoted string node attribute notation to honor <a href="http://www.foodcritic.io/#FC019">FC019</a>.</p>
+<p>There are some edge cases were, upon discussion a violation is tolerated. This can be done with a special markup in the code itself. Following an example (taken from <a href="https://github.com/TelekomLabs/chef-ssh-hardening/blob/master/recipes/server.rb#L41">chef-ssh-hardening server.rb</a>)</p>
+<pre class="prettyprint well"><code class="ruby">  search('users', &quot;#{field}:*&quot;).map do |v| # ~FC003 ignore footcritic violation
+    Chef::Log.info &quot;ssh_server: installing ssh-keys for root access of user #{v['id']}&quot;
+    v[field]
+  end.flatten
+</code></pre>
+
+<p>Here we acknowledge <a href="http://www.foodcritic.io/#FC003">FC003</a> as this cookbook will always need search in order to work and we use solo-search in testing.</p>
+<p>Every chef project has a rake task to run foodcritic as well as a task were all linters for the project are run, including rubocop:</p>
+<pre class="prettyprint well"><code>± bundle exec rake -T |grep foodcritic
+rake foodcritic                        # Run foodcritic lint checks
+rake run_all_linters                   # Run all linters: rubocop and foodcritic
+</code></pre>
+
+<p>Example successful run of foodcritic </p>
+<pre class="prettyprint well"><code>± bundle exec rake foodcritic
+Running Foodcritic tests...
+done.
+
+± echo $?
+0
+</code></pre>
+
+<h3 id="puppet-puppet-lint">Puppet - Puppet-Lint</h3>
+<p><a href="http://puppet-lint.com">Puppet-Lint</a> is a special linter for puppet modules. The rake task is configured to fail on <code>any</code> violation. </p>
+<pre class="prettyprint well"><code>± bundle exec rake -T |grep puppet-lint
+rake lint             # Run puppet-lint / Check puppet manifests with puppet-lint
+rake run_all_linters  # Run all linters: rubocop and puppet-lint
+</code></pre>
+
+<p>We disabled some checks from puppet-lint</p>
+<pre class="prettyprint well"><code>± grep Lint Rakefile
+PuppetLint.configuration.send('disable_autoloader_layout')
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_inherits_across_namespaces')
+PuppetLint.configuration.fail_on_warnings = true
+PuppetLint.configuration.ignore_paths = ['vendor/**/*.pp'] 
+</code></pre>
+
+<p>If everything is well the exit code is 0, and no further output is displayed:</p>
+<pre class="prettyprint well"><code>± bundle exec rake lint
+± echo $?
+0
+</code></pre>
+
+<p>If there is an error or a warning you get some output and an exit code &lt;&gt; 0</p>
+<pre class="prettyprint well"><code>± bundle exec rake lint
+manifests/init.pp - WARNING: double quoted string containing no variables on line 10
+rake aborted!
+
+/.../.rvm/gems/ruby-2.1.1/gems/puppet-lint-0.3.2/lib/puppet-lint/tasks/puppet-lint.rb:25:in `block (2 levels) in initialize'
+/.../.rvm/gems/ruby-2.1.1/gems/puppet-lint-0.3.2/lib/puppet-lint/tasks/puppet-lint.rb:13:in `block in initialize'
+/.../.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `eval'
+/.../.rvm/gems/ruby-2.1.1/bin/ruby_executable_hooks:15:in `&lt;main&gt;'
+Tasks: TOP =&gt; lint
+(See full trace by running task with --trace)
+
+± echo $?
+1
+</code></pre>
+
+</div>
+        </div>
+
+        
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../js/prettify-1.0.min.js"></script>
+        <script src="../../js/base.js"></script>
+    </body>
+</html>
