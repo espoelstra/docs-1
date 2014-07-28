@@ -9,7 +9,7 @@
         
         <link rel="shortcut icon" href="../img/favicon.ico">
 
-        <title>Principles - Automatic server hardening</title>
+        <title>FAQ - Automatic server hardening</title>
 
         <link href="../css/bootstrap-3.0.3.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
@@ -77,8 +77,8 @@
             
             
             
-                <li class="active">
-                    <a href="./">Principles</a>
+                <li >
+                    <a href="../principles/">Principles</a>
                 </li>
             
             
@@ -95,8 +95,8 @@
             
             
             
-                <li >
-                    <a href="../faq/">FAQ</a>
+                <li class="active">
+                    <a href="./">FAQ</a>
                 </li>
             
             
@@ -106,12 +106,12 @@
             <ul class="nav navbar-nav navbar-right">
                 
                 <li >
-                    <a rel="next" href="../coding/headers/">
+                    <a rel="next" href="../puppet/">
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
-                <li >
-                    <a rel="prev" href="../chef/">
+                <li class="disabled">
+                    <a rel="prev" >
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -125,15 +125,43 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#principles">Principles</a></li>
+        <li class="main active"><a href="#frequently-asked-questions">Frequently asked questions</a></li>
+        
+            <li><a href="#is-it-possible-to-use-the-toolkit-without-internet-connection">Is it possible to use the toolkit without internet connection</a></li>
+        
+            <li><a href="#how-do-i-configure-ldap-authentication-with-ssh-hardening">How do I configure LDAP authentication with ssh-hardening</a></li>
         
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="principles">Principles</h1>
-<p>This section records decisions for all defaults and options we set.</p>
+<h1 id="frequently-asked-questions">Frequently asked questions</h1>
+<h3 id="is-it-possible-to-use-the-toolkit-without-internet-connection">Is it possible to use the toolkit without internet connection</h3>
+<p>Yes, it is possible to use the hardening scripts on computers without internet connection. You need to ensure two specific things:</p>
+<ul>
+<li>Configured package repository access (eg. RedHat Satellite)</li>
+<li>Manual installation of chef or puppet</li>
+</ul>
+<p>To run the scripts via chef without internet and chef server, do the following.</p>
+<ol>
+<li>Download the chef package for your operating system.</li>
+</ol>
+<pre class="prettyprint well"><code class="bash">wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.12.8-2_amd64.deb
+</code></pre>
+
+<p>Transfer the the package and the cookbooks on your servers and start the run:</p>
+<pre class="prettyprint well"><code class="bash">echo &quot;---&gt; Install Chef&quot;
+dpkg -i chef_11.12.8-2_amd64.deb
+
+echo &quot;---&gt; Start chef run in local mode&quot;
+# runs chef client in local mode
+chef-client -z -o yourcookbook
+</code></pre>
+
+<p>More information about about chef in local mode is available at <a href="http://www.getchef.com/blog/2013/10/31/chef-client-z-from-zero-to-chef-in-8-5-seconds/">getchef.com</a></p>
+<h3 id="how-do-i-configure-ldap-authentication-with-ssh-hardening">How do I configure LDAP authentication with ssh-hardening</h3>
+<p>Configure the <code>ssh-cookbook</code> with <code>use-pam: true</code>. This enables the PAM authentication via ssh. In addition you need to configure <a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-Directory_Servers.html#s2-ldap-pam">PAM properly to work with LDAP</a>. The configuration of PAM for LDAP is not covered by <code>os-hardening</code> or <code>ssh-hardening</code>.</p>
 </div>
         </div>
 
