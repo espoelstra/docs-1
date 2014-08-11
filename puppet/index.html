@@ -127,18 +127,43 @@
     
         <li class="main active"><a href="#puppet-overview">Puppet overview</a></li>
         
+            <li><a href="#publishing-puppet-modules">Publishing Puppet Modules</a></li>
+        
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
 <h1 id="puppet-overview">Puppet overview</h1>
+<p>The following modules are part of the hardening framework:</p>
+<p>Base Operating System</p>
 <ul>
-<li><a href="https://github.com/TelekomLabs/example-puppet-hardening">example-puppet-hardening</a></li>
 <li><a href="https://github.com/TelekomLabs/puppet-os-hardening">puppet-os-hardening</a></li>
 <li><a href="https://github.com/TelekomLabs/puppet-ssh-hardening">puppet-ssh-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/puppet-mysql-hardening">puppet-mysql-hardening</a></li>
 </ul>
+<p>Database</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/puppet-mysql-hardening">puppet-mysql-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/puppet-postgres-hardening">puppet-postgres-hardening</a></li>
+</ul>
+<p>Web Server</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/puppet-nginx-hardening">puppet-nginx-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/puppet-apache-hardening">puppet-apache-hardening</a></li>
+</ul>
+<p>Example</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/example-puppet-hardening">example-puppet-hardening</a></li>
+</ul>
+<h2 id="publishing-puppet-modules">Publishing Puppet Modules</h2>
+<p>Simple enough: If you have your <code>Modulefile</code> and <code>metadata.json</code> ready, just run:</p>
+<pre class="prettyprint well"><code>cd puppet-xxx-hardening/
+puppet module build .
+</code></pre>
+<p>Results are in pkg.</p>
+<p>The two files may not get merged correctly, so please diff:</p>
+<pre class="prettyprint well"><code>colordiff metadata.json pkg/puppet-*-hardening/metadata.json
+</code></pre>
 </div>
         </div>
 

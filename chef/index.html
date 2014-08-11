@@ -127,18 +127,78 @@
     
         <li class="main active"><a href="#chef-overview">Chef overview</a></li>
         
+            <li><a href="#publishing-cookbooks">Publishing Cookbooks</a></li>
+        
     
     </ul>
 </div></div>
             <div class="col-md-9" role="main">
 
 <h1 id="chef-overview">Chef overview</h1>
+<p>The following modules are part of the hardening framework:</p>
+<p>Base Operating System</p>
 <ul>
-<li><a href="https://github.com/TelekomLabs/example-chef-hardening">example-chef-hardening</a></li>
 <li><a href="https://github.com/TelekomLabs/chef-os-hardening">chef-os-hardening</a></li>
 <li><a href="https://github.com/TelekomLabs/chef-ssh-hardening">chef-ssh-hardening</a></li>
-<li><a href="https://github.com/TelekomLabs/chef-mysql-hardening">chef-mysql-hardening</a></li>
 </ul>
+<p>Database</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/chef-mysql-hardening">chef-mysql-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/chef-postgres-hardening">chef-postgres-hardening</a></li>
+</ul>
+<p>Web Server</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/chef-nginx-hardening">chef-nginx-hardening</a></li>
+<li><a href="https://github.com/TelekomLabs/chef-apache-hardening">chef-apache-hardening</a></li>
+</ul>
+<p>Example</p>
+<ul>
+<li><a href="https://github.com/TelekomLabs/example-chef-hardening">example-chef-hardening</a></li>
+</ul>
+<h2 id="publishing-cookbooks">Publishing Cookbooks</h2>
+<h3 id="stove-route">Stove-route</h3>
+<p>The easy way:</p>
+<pre class="prettyprint well"><code>    gem install stove
+    stove login --username YOURNAME --key ~/.chef/YOURKEY.pem
+    cd chef-os-hardening
+    stove
+</code></pre>
+<p>In case of errors: Use the method below to ensure that your <code>metadata.rb</code> is configure correctly. If you cannot generate a <code>metadata.json</code>, fix this error first.</p>
+<h3 id="chef-route">Chef-route</h3>
+<p>We will use <code>chef-ssh-hardening</code> as an example project.</p>
+<ol>
+<li>
+<p>Install chef</p>
+<pre class="prettyprint well"><code>gem install chef
+</code></pre>
+</li>
+<li>
+<p>Since development happens locally, define your ssh key in your chef config</p>
+<pre class="prettyprint well"><code>~/.chef/knife.rb
+
+client_key "#{ENV['HOME']}/.ssh/id_rsa"
+cookbook_license "apachev2"
+cookbook_copyright "&lt;YOURNAME&gt;"
+cookbook_email "&lt;EMAIL&gt;"
+</code></pre>
+</li>
+<li>
+<p>Copy to temporary cookbooks location</p>
+<pre class="prettyprint well"><code>mkdir /tmp/cookbooks
+cp -r . /tmp/cookbooks/ssh-hardening
+</code></pre>
+</li>
+<li>
+<p>Generate <code>metadata.json</code></p>
+<pre class="prettyprint well"><code>knife cookbook metadata ssh-hardening -o /tmp/cookbooks
+</code></pre>
+</li>
+<li>
+<p>Generate tarball</p>
+<pre class="prettyprint well"><code>knife cookbook site share ssh-hardening "ssh-hardening" -o /tmp/cookbooks
+</code></pre>
+</li>
+</ol>
 </div>
         </div>
 
